@@ -1,19 +1,24 @@
-inttiize serial communication of 9600 bits per seconds
+void setup() {
+  // 初始化序列通訊，設定傳輸速率為 9600 位元/秒
+  Serial.begin(9600);
 
-Sertal.begin(9600);
+  // 設定 LED 腳位為輸出，假設 LED 接在 D9（PWM 腳位）
+  pinMode(13, OUTPUT);
+}
 
-// the loop routine nuns over and over anoin forevers
+void loop() {
+  // 從 A0 腳位讀取類比值（0~1023）
+  int sensorValue = analogRead(A0);
 
-void loop
+  // 輸出原始感測器值到序列監控器
+  Serial.println(sensorValue);
 
-// read the topution analog ti
+  // 將 sensorValue 映射到 0~255 的 PWM 範圍
+  int ledBrightness = map(sensorValue, 0, 1023, 0, 255);
 
-int sensorValue = analogRead(A0);
+  // 將亮度寫入 LED
+  analogWrite(13, ledBrightness);
 
-// print out the value you redd:
-
-Serial.println(sensorValue);
-
-delay(1);
-
-delicy in between reads for stoo1lity
+  // 稍微延遲以穩定輸出
+  delay(1);
+}
